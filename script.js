@@ -24,24 +24,28 @@ Data di nascita dello chef: 1990-06-15
 
 async function getChefBirthday(id) {
   try {
-    const data = await fetch(`https://dummyjson.com/recipes/${id}`);
-    const parseData = await data.json();
-    const userId = parseData.userId;
-
-    const chefInformation = await fetch(`https://dummyjson.com/users/${userId}`);
-    const parseChefInfo = await chefInformation.json();
-
-    return parseChefInfo.birthDate;
+    const data = await fetch(`https://dummyjson.com/recipes/${id}`)
+    const parseData = await data.json()
+    // console.log("questi sono i dati", parseData)
+    const userId = parseData.userId
+    // console.log("questo è user id:", userId)
+    const chefInformation = await fetch(`https://dummyjson.com/users/${userId}`)
+    const parseChefInfo = await chefInformation.json()
+    // console.log("info dello chef ->", parseChefInfo)
+    return parseChefInfo.birthDate
   } catch (error) {
     throw new Error("Impossibile ottenere la data di nascita dello chef: " + error.message);
   }
 }
 
-
-// Funzione wrapper per usare await
+// Funzione wrapper per usare await e stampare la data
 async function showBirthday() {
-  const chefBirthday = await getChefBirthday(4)
-  console.log("La data di nascita dello chef è:", chefBirthday)
+  try {
+    const chefBirthday = await getChefBirthday(4);
+    console.log("La data di nascita dello chef è:", chefBirthday);
+  } catch (error) {
+    console.error("Errore:", error.message);
+  }
 }
 
-showBirthday()
+showBirthday();
